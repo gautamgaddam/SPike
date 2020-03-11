@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+  
+    "name": "Spike",
+    "description": "Save Highlighted Text",
+    "version": "1.0",
+    "author": "Gowtham Gaddam",
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "icons": {
+      
+    }, 
+    "browser_action": {
+          "default_title": "Spike",
+          "default_icon": {
+           
+          },  
+      "default_popup": "dashboard.html"
+    },
+      "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["spike.client.js"],
+        "run_at": "document_start"
+      }
+    ],
+    "permissions": [
+      "activeTab"
+    ]
+}
