@@ -7,6 +7,11 @@ window.browser = (function () {
 console.log("Spike content script started");
 
 
+var spikeStatus;
+ browser.runtime.onMessage.addListener(function(request, sender) {
+     spikeStatus= request.message;
+     console.log(request.message);
+   });
 
 // IE and Google Chrome Support
 // if (window.getSelection) {  // all browsers, except IE before version 9
@@ -31,7 +36,8 @@ window.addEventListener("scroll", redrawSelectionBoxes, false);
 window.addEventListener("resize", redrawSelectionBoxes, false);
 function handleSelectionChange() {
     var selectionString = window.getSelection().toString();
-    if (selectionString) {
+
+    if (selectionString && spikeStatus) {
         if (selectionString[0].length > 0) {
             clearTimeout(selectionChangeTimer);
             selectionChangeTimer = setTimeout(drawSelectionBoxes, 300);
@@ -71,7 +77,10 @@ function drawSelectionBoxes() {
     // NOTE: I'd rather use the "type" property (None, Range, Caret); however, in
     // my testing, this does not appear to be supported in IE. As such, we'll use
     // the rangeCount and test the range dimensions).
-    if (!selection.toString().length>0) {
+    
+
+    if (!selection.toString().length>0  ) {
+      
         clearCurrentSelectionBoxes();
         return;
     }else{
