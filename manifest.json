@@ -7,13 +7,19 @@
     "author": "Gowtham Gaddam",
     "background": {
         "scripts": [
-            "background.js"
+            "background.js",
+            "string_utils.js"
         ],
         "persistent": false
     },
     "icons": {
       
     }, 
+    "commands": {
+      "apply_highlight.0": {
+          "description": "Highlight #1"
+      }
+    },
     "browser_action": {
           "default_title": "Spike",
           "default_icon": {
@@ -24,13 +30,19 @@
       "content_scripts": [
       {
         "matches": ["<all_urls>"],
-        "js": ["spike.client.js"],
+        "js": ["spike.client.js", "string_utils.js", "xpath.js"],
         "run_at": "document_start"
       }
     ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
     "permissions": [
-        "tabs",
-        "activeTab",
-        "storage"
-    ]
+      "clipboardWrite",
+      "tts",
+      "storage",
+      "contextMenus",
+      "unlimitedStorage",
+      "webNavigation",
+      "tabs",
+      "<all_urls>"
+  ]
 }
