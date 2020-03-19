@@ -1,17 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
+
+<style>
+    .main {
+
+        width: 350px;
+        height: auto;
+        max-height: 500px;
+        overflow: auto;
+
+    }
+
+    #loadHighlights {
+
+        padding: 5px 0px;
+    }
+
+    #loadHighlights li {
+        border: 1px dotted gray;
+        border-radius: 2px;
+        margin-bottom: 5px;
+        position: relative;
+        list-style: decimal;
+    }
+
+    .closeButton {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0px 5px;
+        margin: 2px;
+    }
+
+    .dis-none {
+        display: none;
+    }
+
+    #showUser {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+</style>
+
 <body>
-    <div>
-        <button id="switch">Turn On</button>
-        <div id="loadHighlights"></div>
+    <div class="main d-flex flex-column p-2">
+        <div id="showUser">
+            <button id="goToSignIn">Signin</button>
+            <button id="logout" class="dis-none">Logout</button></div>
+        <div id="notesDiv">
+            <!-- <button id="switch" class="align-self-end btn btn-sm btn-primary mb-2">Turn On</button> -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                        aria-controls="home" aria-selected="true">Notes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                        aria-controls="profile" aria-selected="false">AddNotes</a>
+                </li>
+
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active text-center" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    No
+                    Notes</div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div id="loadHighlights">
+                        <div>
+                            <ul id="addNotes">
+
+                            </ul>
+                        </div>
+                        <div id="toggleSave"> <input placeholder="Add Manual Notes"
+                                class="form-control form-control-sm mb-2" id="noteRemark" />
+                            <button class="btn btn-success btn-sm " id="saveAllNotes">Save</button></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="userLogin">
+            <form>
+                <div class="form-group">
+
+                    <input type="email" class="form-control form-control-sm" id="emailUser" aria-describedby="emailHelp"
+                        placeholder="Enter email">
+                </div>
+                <div class="form-group">
+
+                    <input type="password" class="form-control form-control-sm" id="passUser" placeholder="Password">
+                </div>
+
+                <button type="submit" class="btn btn-primary  btn-sm" id="userSignIn">Submit</button>
+                <button type="submit" class="btn btn-danger  btn-sm" id="noteCancel">Cancel</button>
+            </form>
+            <!-- <div>Not a user? <a id="gotoRegister">Click to Register!</a></div> -->
+        </div>
+        <!-- <div id="registerForm " class="dis-none">
+            <form>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <input type="text" class="form-control form-control-sm" id="validationDefault03" placeholder="Email Address"
+                            required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <input type="text" class="form-control form-control-sm" id="validationDefault02" placeholder="Password"
+                             required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <input type="text" class="form-control form-control-sm" id="validationDefault01" placeholder="First name"
+                            required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <input type="text" class="form-control form-control-sm" id="validationDefault02" placeholder="Last name"
+                            required>
+                    </div>
+                </div>
+                <button class="btn btn-primary  btn-sm" type="submit" id="registerUser">Register</button>
+                <button class="btn btn-danger  btn-sm" type="submit" id="cancelRegister">Cancel</button>
+            </form>
+        </div> -->
 
     </div>
+    <script src="global/jquery.min.js"></script>
+    <script src="global/popper.min..js"></script>
+    <script src="global/bootstrap.js"></script>
+
     <script src="popup.js"></script>
     <script src="viewhighlights.js"></script>
+    <script src="global/authentication.js"></script>
+
 </body>
+
 </html>

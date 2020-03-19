@@ -13,10 +13,10 @@ console.log("Spike content script started");
 
 
 var spikeStatus;
-browser.runtime.onMessage.addListener(function (request, sender) {
-    spikeStatus = request.message;
-    console.log(request.message);
-});
+// browser.runtime.onMessage.addListener(function (request, sender) {
+//     spikeStatus = request.message;
+//     console.log(request.message);
+// });
 
 
 // IE and Google Chrome Support
@@ -41,8 +41,8 @@ window.addEventListener("scroll", redrawSelectionBoxes, false);
 window.addEventListener("resize", redrawSelectionBoxes, false);
 function handleSelectionChange() {
     var selectionString = window.getSelection().toString();
-    console.log(spikeStatus);
-    if (selectionString && spikeStatus) {
+    // console.log(spikeStatus);
+    if (selectionString) {
         if (selectionString[0].length > 0) {
             clearTimeout(selectionChangeTimer);
             selectionChangeTimer = setTimeout(drawSelectionBoxes, 300);
@@ -57,13 +57,13 @@ function handleSelectionChange() {
 
 // I debounce the redrawing of the selection boxes.
 function redrawSelectionBoxes(event) {
-    if (spikeStatus) {
-        clearTimeout(redrawTimer);
-        redrawTimer = setTimeout(drawSelectionBoxes, 100);
-    }
-    else {
-        return;
-    }
+    // if (spikeStatus) {
+    clearTimeout(redrawTimer);
+    redrawTimer = setTimeout(drawSelectionBoxes, 100);
+    // }
+    // else {
+    //     return;
+    // }
 }
 
 
@@ -115,7 +115,7 @@ function drawSelectionBoxes() {
             outline.style.zIndex = 20;
 
 
-            outline.appendChild(createDiv());
+            (selection.toString().length > 0) ? outline.appendChild(createDiv()) : clearCurrentSelectionBoxes();
             document.body.appendChild(outline);
 
         }
@@ -139,6 +139,7 @@ function drawSelectionBoxes() {
                 document.body.appendChild(outline);
             }
 
+
         }
     }
 }
@@ -155,7 +156,6 @@ function createDiv() {
     cancelButton.setAttribute('value', 'cancel');
     saveButton.style.marginLeft = '10px';
     saveButton.style.marginRight = '10px';
-
     saveButton.style.width = 'max-content';
     cancelButton.style.width = 'max-content';
     container.style.display = 'flex';
@@ -170,40 +170,48 @@ function createDiv() {
 
 }
 function saveCurrentSelections() {
-
-    // chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
-    //         console.log(message);
-
-    //         sendResponse(response);
-    // });
     const highlights = addHighlight();
     console.log(highlights);
-    chrome.runtime.sendMessage(highlights);
-
-    chrome.storage.local.set({ highlights: highlights });
+    var port = chrome.runtime.connect({ name: "pushHighlight" });
+    port.postMessage({ displayHighlights: highlights });
     clearCurrentSelectionBoxes();
 }
 function cancelAllSelections() {
     clearCurrentSelectionBoxes();
 }
-var notes = [];
+
+
+
+
+
 function addHighlight() {
     var id = null;
     var className = null;
     var obj = {};
+    var notes = [];
     var range = window.getSelection().getRangeAt(0);
+
     className = _stringUtils.createUUID({ beginWithLetter: true });
     id = _stringUtils.createUUID({ beginWithLetter: true });
     var newRange = _xpath.createXPathRangeFromRange(range);
     createHighlight(newRange, id, className);
+
+
+    obj.selection = window.getSelection().toString().trim();
     obj.range = newRange;
     obj.id = id;
-    obj.selection= window.getSelection().toString().trim();
     obj.className = className;
-    notes.push(obj);
+    obj.date = new Date();
+    obj.url = window.location.href;
+    if (obj.selection.length > 0) {
+        notes.push(obj);
+        return notes;
+    }
+    else {
+        alert("Please select text");
+        return;
+    }
 
-
-    return notes;
 }
 
 

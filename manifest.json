@@ -5,21 +5,24 @@
     "description": "Save Highlighted Text",
     "version": "1.0",
     "author": "Gowtham Gaddam",
+    "offline_enabled": true,
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["spike.client.js", "string_utils.js", "xpath.js"],
+        "run_at": "document_start"
+      }
+    ],
     "background": {
         "scripts": [
-            "background.js",
-            "string_utils.js"
+            "background/background.js"
+     
         ],
         "persistent": false
     },
     "icons": {
       
     }, 
-    "commands": {
-      "apply_highlight.0": {
-          "description": "Highlight #1"
-      }
-    },
     "browser_action": {
           "default_title": "Spike",
           "default_icon": {
@@ -27,14 +30,8 @@
           },  
       "default_popup": "dashboard.html"
     },
-      "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["spike.client.js", "string_utils.js", "xpath.js"],
-        "run_at": "document_start"
-      }
-    ],
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+      
+    "content_security_policy": "script-src 'self'; object-src 'self'",
     "permissions": [
       "clipboardWrite",
       "tts",
@@ -44,5 +41,6 @@
       "webNavigation",
       "tabs",
       "<all_urls>"
+      
   ]
 }
